@@ -1,0 +1,24 @@
+<p-growl [(value)]="_loginModel.msgs"></p-growl>
+<div style=" width: 600px; margin: 10% auto;">
+  <p-panel>
+    <p-header>
+      HR EMPLOYEES
+    </p-header>
+    <div class="ui-g-4 ui-md-12 ui-lg-12">
+      <span style="font-size: 150%;">User Name</span>
+      <input style="width: 100%" type="text" pInputText pKeyFilter="alpha" placeholder="User" [(ngModel)]="_loginModel._loginRequest.user.email">
+    </div>
+    <div class="ui-g-4 ui-md-12 ui-lg-12">
+      <span style="font-size: 150%">Password </span>
+      <input style="width: 100%" type="password" pPassword feedback="_loginModel.feedback" pKeyFilter="int" placeholder="Password" [(ngModel)]="_loginModel._loginRequest.user.password">
+    </div>
+
+    <p-footer>
+      <br>
+      <div style="width: 100%">
+        <button pButton type="button" style="width: 50%" (click)="loggin()" label="Submit"></button>
+        <button pButton type="button" style="width: 50%" (click)="_loginModel.clean()" label="Clean"></button>
+      </div>
+    </p-footer>
+  </p-panel>
+</div>

@@ -1,0 +1,13 @@
+tr:hover{
+     background-color: rgba(238, 206, 25, 0.241) !important;
+}
+
+.rounded-corners{
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+.orange-backgound{
+    background-color: rgba(233, 140, 0, 0.542);
+}

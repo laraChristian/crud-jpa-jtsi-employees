@@ -1,0 +1,33 @@
+.custombar1 .ui-scrollpanel-wrapper {
+    border-right: 9px solid #303030;
+}
+            
+.custombar1 .ui-scrollpanel-bar {
+    background-color: #1976d2;
+    opacity: 1;
+    transition: background-color .5s;
+}
+            
+.custombar1 .ui-scrollpanel-bar:hover {
+    background-color: #135ba1;
+}
+
+.justify-text {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.rounded-corners{
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+.gray-content{
+    background-color: rgba(204, 204, 204, 0.467);
+}
+
+
+tr:hover{
+     background-color: rgba(40, 101, 192, 0.241) !important;
+}

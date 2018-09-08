@@ -1,0 +1,139 @@
+<p-growl [(value)]="_model.msgs"></p-growl>
+<div class="ui-g-12 ui-md-12">
+  <p-panel>
+    <p-header>
+      <i>Employee -- enter your data</i>
+    </p-header>
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <input type="text" [pKeyFilter]="_model.ccRegex" placeholder="First name" style="width: 90%" [(ngModel)]="_model.model.employee.firstName">
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <input type="text" [pKeyFilter]="_model.ccRegex" placeholder="Last name" style="width: 90%" [(ngModel)]="_model.model.employee.lastName">
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <input type="text" pKeyFilter="email" placeholder="Email" style="width: 90%" [(ngModel)]="_model.model.employee.email">
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <input type="text" pKeyFilter="int" placeholder="Identification" style="width: 90%" [(ngModel)]="_model.model.employee.identification">
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <p-inputMask mask="999.999.9999" size="72.5%" [(ngModel)]="_model.model.employee.phoneNumber" placeholder="Phone number"></p-inputMask>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <input type="text" pInputText pKeyFilter="money" placeholder="Salary" style="width: 90%" [(ngModel)]="_model.model.employee.salary">
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <input type="text" pInputText pKeyFilter="money" placeholder="Commission" style="width: 90%" [(ngModel)]="_model.model.employee.commissionPct">
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <p-dropdown [options]="_model.jobItems" [(ngModel)]="_model.model.employee.jobId" [style]="{'width':'90%'}" filter="true"
+          filterPlaceholder="Job Name" placeholder="Jobs" (onChange)="disableDepartments()">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+          <ng-template let-job pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+              <div style="font-size:14px;float:right;margin-top:4px">{{job.label}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <p-dropdown [options]="_model.departmentItems" [(ngModel)]="_model.model.employee.departmentId" [style]="{'width':'90%'}"
+          filter="true" filterPlaceholder="Department Name" placeholder="Departments" [disabled]="_model.status">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+          <ng-template let-dep pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+              <div style="font-size:14px;float:right;margin-top:4px">{{dep.label}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <p-dropdown [options]="_model.managerItems" [(ngModel)]="_model.model.employee.managerId" [style]="{'width':'90%'}" filter="true"
+          filterPlaceholder="Manager Name" (onChange)="filterDepartments()" placeholder="Manager Name">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+          <ng-template let-dep pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+              <div style="font-size:14px;float:right;margin-top:4px">{{dep.label}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425" #cd>
+        <p-footer>
+          <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+          <button type="button" pButton icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
+        </p-footer>
+      </p-confirmDialog>
+
+      <div style="width: 100%">
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <button pButton type="button" style="width: 90%" (click)="createEditEmploye()" label="Submit"></button>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <button pButton type="button" class="ui-button-danger" style="width: 90%" (click)="_model.clean()" label="Clean"></button>
+        </div>
+      </div>
+    </div>
+
+    <p-footer>
+      <br>
+      <p-table #dt [columns]="_model.scrollableCols" [frozenColumns]="_model.frozenCols" [value]="_model.employeesCreated" [scrollable]="true"
+        scrollHeight="200px" frozenWidth="200px" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="_model.model.employee"
+        (onRowSelect)="showRowData()" (onRowUnselect)="_model.clean()" [loading]="_model.loading">
+        <ng-template pTemplate="caption">
+          List of Employees
+        </ng-template>
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col *ngFor="let col of columns" style="width: 230px">
+          </colgroup>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" style="background-color: slategray">
+              {{col.header}}
+            </th>
+            <th style="background-color:slategray">
+              Action
+            </th>
+          </tr>
+
+          <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+              <input *ngSwitchCase="'firstName'" pInputText type="text" placeholder="Employee Name" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+            </th>
+            <th>
+              <br>
+              <hr>
+            </th>
+          </tr>
+
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRowDblClick]="rowData">
+            <td *ngFor="let col of columns" class="ui-resizable-column">
+              {{rowData[col.field]}}
+            </td>
+            <td>
+              <button pButton type="button" class="ui-button-danger" label="Delete" (click)="confirm(rowData)"></button>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </p-footer>
+  </p-panel>
+</div>

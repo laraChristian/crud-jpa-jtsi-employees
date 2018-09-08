@@ -1,0 +1,18 @@
+.gray-content{
+    background-color: rgba(204, 204, 204, 0.467);
+}
+
+.rounded-corners{
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+ :host ::ng-deep .orange-back{
+    background: rgb(172, 0, 34);
+    background: -webkit-linear-gradient(to right, rgb(163, 226, 35), rgb(189, 255, 35));
+    background: linear-gradient(to right, rgb(244, 174, 24), rgb(244, 173, 20));
+    border-radius: 8px 8px 8px 8px;
+    -moz-border-radius: 8px 8px 8px 8px;
+    -webkit-border-radius: 8px 8px 8px 8px;
+}

@@ -1,0 +1,101 @@
+<div class="ui-g-12 ui-md-12">
+  <p-panel>
+
+    <p-header>
+      <i>Departments -- management center</i>
+      <p-messages [(value)]="msgs"></p-messages>
+    </p-header>
+
+    <p-table [columns]="_model.departmentsCols" [value]="_model.response.departmentsDTO" selectionMode="single" [(selection)]="_model.request.departmentDTO"
+      (onRowSelect)="onRowSelect()" (onRowUnselect)="_model.clean()" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRowDblClick]="rowData">
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary" let-rowData>
+        <b>Actionss</b>
+        <div style="text-align:left; height: 50px" class="ui-g">
+          <div class="ui-g-12 ui-md-12 ui-lg-12">
+            <button type="button" pButton icon="fa fa-plus" label="Add Department" style="width: 30%" (click)="createDepartment()"></button>
+          </div>
+        </div>
+      </ng-template>
+    </p-table>
+
+    <p-dialog header="Car Details" [(visible)]="_model.displayDialog" [responsive]="true" showEffect="fade" [closable]="false"
+      [modal]="false" [width]="350" [contentStyle]="{'overflow':'visible'}">
+      <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12">
+          <div class="ui-g-8 ui-md-12 ui-lg-12">
+            <label>
+              <b>Departmen Name</b>
+            </label>
+            <input pInputText id="vin" placeholder="Department name" [(ngModel)]="_model.request.departmentDTO.departmentName" style="width: 100%"
+            />
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-8 ui-md-12 ui-lg-12">
+            <label>
+              <b>Managers</b>
+            </label>
+            <p-dropdown dropdownIcon="fa fa-chevron-down" [options]="_model.employeeItems" [(ngModel)]="_model.request.departmentDTO.managerId"
+              [style]="{'width':'100%'}" filter="true" filterPlaceholder="Manager Name" placeholder="Managers" [disabled]="_model.disableDdManagers">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+              <ng-template let-job pTemplate="item">
+                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                  <div style="font-size:14px;float:right;margin-top:4px">{{job.label}}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-8 ui-md-12 ui-lg-12">
+            <label>
+              <b>Locations</b>
+            </label>
+            <p-dropdown dropdownIcon="fa fa-chevron-down" [options]="_model.locationItems" [(ngModel)]="_model.request.departmentDTO.locationId" [style]="{'width':'100%'}"
+              filter="true" filterPlaceholder="Location (city name)" placeholder="Locations">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{item.label}}</span>
+              </ng-template>
+              <ng-template let-job pTemplate="item">
+                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                  <div style="font-size:14px;float:right;margin-top:4px">{{job.label}}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+
+      </div>
+      <p-footer>
+        <div class=" ui-dialog-buttonpane ui-helper-clearfix ">
+          <button type="button " pButton icon="fa fa-floppy-o" (click)="createOrEditDepartment()" label="Save" class="ui-button-success"></button>
+          <button type="button " pButton icon="fa fa-minus-circle " (click)="deleteDepartment() " label="Delete" class="ui-button-danger"></button>
+          <button type="button " pButton icon="fa fa-close " (click)="cancel() " label="Cancel" class="ui-button-secondary"></button>
+        </div>
+      </p-footer>
+    </p-dialog>
+
+
+    <p-footer>
+      Departments ui
+    </p-footer>
+  </p-panel>
+</div>

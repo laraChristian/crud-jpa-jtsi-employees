@@ -1,0 +1,118 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div class="ui-g-12 ui-md-12 ui-lg-12 rounded-corners">
+
+  <p-panel>
+    <p-header>
+      <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Regions -- Center Management</span>
+    </p-header>
+
+    <p-table #dt [columns]="_model.countryCols" [value]="_model.countries" selectionMode="single" [paginator]="true" [rows]="10"
+      (onRowSelect)="onRowSelect()" (onRowUnselect)="_model.clean();" [(selection)]="_model.request.countryDTO" [responsive]="true">
+
+      <div class="ui-g" style="text-align: right">
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <ng-template pTemplate="caption">
+            <div style="text-align: right">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="20" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                style="width:auto">
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRowDblClick]="rowData">
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:left;" class="ui-g">
+          <div class="ui-g-12 ui-md-10 ui-lg-10">
+            <button type="button" pButton icon="fa fa-plus" label="Add Country" (click)="prepareCreate()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-2 ui-lg-2">
+            <i>There are {{_model.countries?.length}} countries</i>
+          </div>
+        </div>
+      </ng-template>
+
+    </p-table>
+
+
+    <p-dialog header="Country Assistant" [(visible)]="_model.displayDialog" [responsive]="true" showEffect="fade" [closable]="false"
+      [modal]="true" [width]="450" [contentStyle]="{'overflow':'visible'}">
+
+      <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12">
+          <div class="ui-g-8 ui-md-12 ui-lg-12">
+            <label>
+              <b>Country ID</b>
+            </label>
+            <input pInputText id="vin" [disabled]="_model.enableId" placeholder="Country ID" [(ngModel)]="_model.request.countryDTO.countryId"
+              style="width: 100%">
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-8 ui-md-12 ui-lg-12">
+            <label>
+              <b>Country Name</b>
+            </label>
+            <input pInputText id="vin" placeholder="Country name" [(ngModel)]="_model.request.countryDTO.countryName" style="width: 100%">
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-8 ui-md-12 ui-lg-12">
+            <label>
+              <b>Regions</b>
+            </label>
+            <p-dropdown dropdownIcon="fa fa-chevron-down" [options]="_model.regionsItems" [(ngModel)]="_model.request.countryDTO.regionId" [style]="{'width':'100%'}" filter="true"
+              filterPlaceholder="Region" placeholder="Regions">
+              <ng-template let-region pTemplate="selectedItem">
+                <span style="vertical-align:middle">{{region.label}}</span>
+              </ng-template>
+              <ng-template let-region pTemplate="item">
+                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                  <div style="font-size:14px;float:right;margin-top:4px">{{region.label}}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <p-footer>
+        <div class=" ui-dialog-buttonpane ui-helper-clearfix ">
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align: center">
+              <button type="button" style="width: 100%" pButton icon="fa fa-check-circle " (click)="createEditContry()" label="Save" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align: center">
+              <button type="button " pButton icon="fa fa-minus-circle " [disabled]="_model.enableDelete" (click)="deleteCountry() " label="Delete"
+                class="ui-button-danger" style="width: 100%"></button>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align: center">
+              <button type="button " style="width: 100%" pButton icon="fa fa-times-circle " (click)="_model.clean() " label="Cancel" class="ui-button-secondary"></button>
+            </div>
+          </div>
+        </div>
+      </p-footer>
+    </p-dialog>
+
+
+  </p-panel>
+</div>

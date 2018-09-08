@@ -1,0 +1,133 @@
+<div class="ui-g-12 ui-md-12 ui-lg-12 rounded-corners">
+  <p-panel>
+    <p-header>
+      <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Jobs Center Management</span>
+      <div class="ui-g-12 ui-md-4 ui-lg-3" style="float: right">
+        <button type="button" pButton icon="fa fa-child" label="Help" style="width: 100%; float: right;" class="ui-button-warn" (click)="_model.showDialog()"></button>
+      </div>
+      <p-messages [(value)]="msgs"></p-messages>
+    </p-header>
+
+    <p-dialog header="Job Assistant" [(visible)]="_model.displayDialog" [responsive]="true" showEffect="fade" [closable]="false"
+      [modal]="true" [width]="450" [contentStyle]="{'overflow':'visible'}">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-12">
+          <p-scrollPanel [style]="{width: '100%', height: '200px'}" styleClass="custombar1">
+            <p-panel class="justify-text" collapseIcon="fa fa-arrow-circle-up" expandIcon="fa fa-arrow-circle-down" header="ID For President or Administration Jobs" [toggleable]="true" [collapsed]="true" [style]="{'width': '95%'}"
+              [styleClass]="ui-panel-titlebar-toggler">
+              <p>
+                It's mandatory that id of this job starting with AD for administrador charges and the title have "Administration" word, for
+                example: AD_VP where AD is administrator and VP is for vice president
+              </p>
+            </p-panel>
+            <p-panel collapseIcon="fa fa-arrow-circle-up" expandIcon="fa fa-arrow-circle-down" header="ID For Manager Jobs 1" [toggleable]="true" [collapsed]="true" [style]="{'width': '95%'}">
+              <p>It's mandatory that id of this job starting with a abbreviation of the job if this job is different to a president
+                o vice president charge, for example AC_MGR where AC is to accountant and MGR to manager</p>
+            </p-panel>
+            <p-panel collapseIcon="fa fa-arrow-circle-up" expandIcon="fa fa-arrow-circle-down" header="ID For Manager Jobs 2" [toggleable]="true" [collapsed]="true" [style]="{'width': '95%'}">
+              <p>It's mandatory that id of this job ending MG or MAN for managers charges and the title have "Manager" word</p>
+            </p-panel>
+            <p-panel collapseIcon="fa fa-arrow-circle-up" expandIcon="fa fa-arrow-circle-down" header="ID For Another Jobs" [toggleable]="true" [collapsed]="true" [style]="{'width': '95%'}">
+              <p>It's mandatory that if this job is different to president, vice president or manager starts with the same abbreviation
+                to the some one jobs mentioned yet, for example: if manager job id is AC_MGR the other job id should be AC_ACCOUNT
+                where AC is to accountant and the rest is to the job name </p>
+            </p-panel>
+            <p-panel collapseIcon="fa fa-arrow-circle-up" expandIcon="fa fa-arrow-circle-down" header="How many jobs should you create" [toggleable]="true" [style]="{'width':'95%'}" [collapsed]="true">
+              it's recommended create two, the first for the manager and other for the assistant or another job
+            </p-panel>
+            <br>
+          </p-scrollPanel>
+        </div>
+      </div>
+      <p-footer>
+        <div class=" ui-dialog-buttonpane ui-helper-clearfix ">
+          <button type="button " pButton icon="fa fa-minus-circle " (click)="_model.hideDialog() " label="Close" class="ui-button-danger"></button>
+        </div>
+      </p-footer>
+    </p-dialog>
+
+    <!--panel body -->
+    <div class="ui-g rounded-corners">
+      <div class="ui-g-12 ui-md-12 ui-lg-12 rounded-corners gray-content">
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <input type="text" pTooltip="Enter Job Id" placeholder="Right" tooltipEvent="focus" [pKeyFilter]="_model.ccRegexId" placeholder="Job Id"
+            style="width: 90%;" [(ngModel)]="_model.request.jobDTO.jobId" [disabled]="_model.request.update">
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <input type="text" pTooltip="Enter Job Title" placeholder="Right" tooltipEvent="focus" [pKeyFilter]="_model.ccRegex" placeholder="Job Title"
+            style="width: 90%" [(ngModel)]="_model.request.jobDTO.jobTitle">
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <input type="text" pKeyFilter="int" pTooltip="Min Salary" placeholder="Right" tooltipEvent="focus" pInputText pKeyFilter="money"
+            placeholder="Min Salary" style="width: 90%" [(ngModel)]="_model.request.jobDTO.minSalary">
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <input type="text" pKeyFilter="int" pTooltip="Max Salary" placeholder="Right" tooltipEvent="focus" pInputText pKeyFilter="money"
+            placeholder="Max Salary" style="width: 90%" [(ngModel)]="_model.request.jobDTO.maxSalary">
+        </div>
+        <hr>
+        <div style="width: 100%" class="gray-background">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <button pButton type="button" style="width: 90%" (click)="create()" label="Submit"></button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <button pButton type="button" class="ui-button-danger" style="width: 90%" (click)="_model.clean()" label="Clean"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p-footer>
+      <p-table #dt [columns]="_model.jobCols" [value]="_model.response.jobsDTO" selectionMode="single" [(selection)]="_model.request.jobDTO"
+        [responsive]="true" (onRowSelect)="onRowSelect()" (onRowUnselect)="_model.clean()" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="caption">
+          <i>List of jobs</i>
+          <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+              style="width:auto">
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRowDblClick]="rowData">
+            <td *ngFor="let col of columns">
+              <span class="ui-column-title">{{col.header}}</span>
+              {{rowData[col.field]}}
+            </td>
+            <td style="text-align: center">
+              <button pButton type="button" icon="fa fa-minus-circle" class="ui-button-danger" label="Delete" (click)="confirm(rowData)"></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary" let-rowData>
+          <div style="text-align:left; height: 50px" class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              There are {{_model.response.jobsDTO?.length}} jobs
+            </div>
+          </div>
+        </ng-template>
+      </p-table>
+
+      <p-confirmDialog header="Job Assistant" icon="fa fa-exclamation-circle" width="425" #cd>
+        <p-footer>
+          <button type="button" pButton icon="fa fa-close" label="No" (click)="cd.reject()"></button>
+          <button type="button" pButton icon="fa fa-check-circle" label="Yes" (click)="cd.accept()"></button>
+        </p-footer>
+      </p-confirmDialog>
+
+    </p-footer>
+  </p-panel>
+</div>

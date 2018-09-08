@@ -1,0 +1,29 @@
+<div class="ui-g" *ngIf="showToLoggedUsers()" style="height: 100%">
+  <div class="ui-g-12 ui-md-12" style="background:#27b060a3; height: 100%">
+    <base-menu></base-menu>
+  </div>
+
+  <div class="ui-g-12 ui-md-12" style="height: 100%; background: #13720bb9">
+    <div class="ui-g-12 " style="background: rgb(242, 240, 240); height: 100%; border-radius: 10px 10px 10px 10px;
+      -moz-border-radius: 10px 10px 10px 10px; -webkit-border-radius: 10px 10px 10px 10px;">
+
+      <div class="ui-g" *ngIf="haveFocus()" style="height: 500px;">
+        <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+      </div>
+
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <div class="ui-g-12 " style="background: #49af0e; height: 100%">
+    <div style="background: rgb(242, 240, 240); border-radius: 8px 8px 8px 8px;
+      -moz-border-radius: 8px 8px 8px 8px; -webkit-border-radius: 8px 8px 8px 8px;">
+      <b>
+        <i>Crud HR Employees App -- All Rights Reserved @2018</i>
+      </b>
+    </div>
+  </div>
+</div>

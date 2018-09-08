@@ -1,0 +1,151 @@
+<form [formGroup]="_model.userform" (ngSubmit)="onSubmit(_model.userform.value)">
+  <p-panel>
+    <p-header>
+      <i>Location -- Management Center</i>
+      <p-messages [(value)]="_model.msgs"></p-messages>
+    </p-header>
+
+    <div class="ui-g gray-content rounded-corners">
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <br>
+        <input pInputText type="text" pTooltip="Street Address" placeholder="Right" tooltipEvent="focus" formControlName="streetAddress"
+          placeholder="Street Address" style="width: 90%" />
+        <div class="ui-message ui-messages-error" *ngIf="!_model.userform.controls['streetAddress'].valid&&_model.userform.controls['streetAddress'].dirty">
+          <i class="fa fa-close">
+            Street Address is required
+          </i>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <br>
+        <input pInputText type="text" pTooltip="Postal Code" placeholder="Right" tooltipEvent="focus" formControlName="postalCode"
+          placeholder="Postal Code" style="width: 90%" />
+        <div class="ui-message ui-messages-error" *ngIf="!_model.userform.controls['postalCode'].valid&&_model.userform.controls['postalCode'].dirty">
+          <i class="fa fa-close">
+            Postal Code is required
+          </i>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <br>
+        <input pInputText type="text" pTooltip="City" placeholder="Right" formControlName="city" placeholder="City" style="width: 90%"
+        />
+        <div class="ui-message ui-messages-error" *ngIf="!_model.userform.controls['city'].valid&&_model.userform.controls['city'].dirty">
+          <i class="fa fa-close">
+            City is required
+          </i>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <br>
+        <input pInputText type="text" pTooltip="State Province" placeholder="Right" formControlName="stateProvince" placeholder="State Province"
+          style="width: 90%" />
+        <div class="ui-message ui-messages-error" *ngIf="!_model.userform.controls['stateProvince'].valid&&_model.userform.controls['stateProvince'].dirty">
+          <i class="fa fa-close">
+            State is required
+          </i>
+        </div>
+      </div>
+
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <br>
+        <p-dropdown dropdownIcon="fa fa-chevron-down" [options]="_model.countryItems" formControlName="countryId" [style]="{'width':'90%'}" filter="true" filterPlaceholder="Country name"
+          placeholder="Countries">
+          <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle">{{item.label}}</span>
+          </ng-template>
+          <ng-template let-job pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+              <div style="font-size:14px;float:right;margin-top:4px">{{job.label}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div style="width: 100%">
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <button pButton type="submit" icon="fa fa-upload" class="ui-button-success" label="Submit" [disabled]="!_model.userform.valid" style="width: 90%"></button>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <button pButton type="button" icon="fa fa-recycle" class="ui-button-secondary" style="width: 90%" (click)="_model.clean()" label="Clean"></button>
+        </div>
+      </div>
+    </div>
+
+    <p-footer>
+      <hr>
+      <p-table #dt [columns]="_model.locationCols" [value]="_model.response.locationsDTO" selectionMode="single" [paginator]="true"
+        [rows]="5" [responsive]="true" [(selection)]="this._model.request.request" (onRowSelect)="onRowSelect()" (onRowUnselect)="_model.clean()">
+
+        <div class="ui-g" style="text-align: right">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <ng-template pTemplate="caption">
+              <i>List of jobs</i>
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="20" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+            <th>
+              Action
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRowDblClick]="rowData">
+            <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+            </td>
+            <td style="text-align: center">
+              <button type="button" pButton (click)="showConfirm(rowData)" label="Delete" class="ui-button-danger"></button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary" let-rowData>
+          <div style="text-align:left; height: 50px" class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+              There are {{_model.response.locationsDTO?.length}} locations
+            </div>
+          </div>
+        </ng-template>
+      </p-table>
+
+
+      <p-toast position="center" styleClass="orange-back rounded-corners" key="c" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
+        <ng-template let-message pTemplate="message">
+          <div style="text-align: center">
+            <i class="fa fa-exclamation-circle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+          </div>
+
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+              <button type="button" pButton (click)="onConfirm(rowData)" label="Yes" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-6">
+              <button type="button" pButton (click)="onReject()" label="No" class="ui-button-secondary"></button>
+            </div>
+          </div>
+        </ng-template>
+      </p-toast>
+
+
+    </p-footer>
+  </p-panel>
+</form>

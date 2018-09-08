@@ -1,0 +1,79 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div class="ui-g">
+
+  <div class="ui-g-12 ui-md-12 ui-lg-12 rounded-corners">
+    <form [formGroup]="_model.regionsForm" (ngSubmit)="onSubmit(_model.regionsForm.value)">
+      <div class="ui-g-12 ui-md-6 ui-lg-6">
+        <input pInputText type="text" pTooltip="Street Address" placeholder="Right" tooltipEvent="focus" formControlName="regionName"
+          placeholder="Street Address" style="width: 90%; height: 26px;">
+        <div class="ui-message ui-messages-error rounded-corners" *ngIf="!_model.regionsForm.controls['regionName'].valid&&_model.regionsForm.controls['regionName'].dirty">
+          <i class="fa fa-info-circle">
+            Region name is requerid!
+          </i>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 ui-lg-6" style="text-align: center">
+        <div style="width: 100%">
+          <button pButton type="submit" class="ui-button-success" label="Submit" [disabled]="!_model.regionsForm.valid" style="width: 90%"></button>
+        </div>
+        <hr style="width: 80%">
+        <div tyle="width: 100%">
+          <button pButton type="button" class="ui-button-danger" style="width: 90%" label="Delete" [disabled]="_model.disableDelete"
+            (click)="deleteRegion()"></button>
+        </div>
+        <hr style="width: 80%">
+        <div tyle="width: 100%">
+          <button pButton type="button" class="ui-button-secondary" style="width: 90%" label="Clean" (click)="_model.clean()"></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <hr>
+  <div class="ui-g-12 ui-md-12 ui-lg-12 rounded-corners orange-backgound" style="text-align: right">
+    <p-table #dt [columns]="_model.tblCols" [value]="_model.regionsDTO" selectionMode="single" [paginator]="true" [rows]="10"
+      (onRowSelect)="onRowSelect()" (onRowUnselect)="_model.clean();" [(selection)]="_model.request.request" [responsive]="true">
+
+      <div class="ui-g" style="text-align: right">
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <ng-template pTemplate="caption">
+            <div style="text-align: right">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="20" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                style="width:auto">
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRowDblClick]="rowData">
+          <td *ngFor="let col of columns">
+            <span class="ui-column-title">{{col.header}}</span>
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:left;" class="ui-g">
+          <div class="ui-g-12 ui-md-2 ui-lg-2">
+            <i>There are {{_model.regionsDTO?.length}} regions</i>
+          </div>
+        </div>
+      </ng-template>
+
+    </p-table>
+  </div>
+
+
+</div>
