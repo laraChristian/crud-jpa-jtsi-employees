@@ -1,0 +1,4 @@
+co\com\foundation\crud\jpa\web\api\cors\CORSFilter.class
+co\com\foundation\crud\jpa\web\api\AdministrativeApi.class
+co\com\foundation\crud\jpa\web\api\EmployeesApi.class
+co\com\foundation\crud\jpa\web\api\RegionsApi.class

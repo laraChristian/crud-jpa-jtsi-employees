@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="crud-jpa-ear-0.0.1-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="crud-jpa-ejb-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/crud-jpa-ejb/crud-jpa-ejb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lombok-1.18.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/projectlombok/lombok/1.18.0/lombok-1.18.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="log4j-api-2.11.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-api/2.11.0/log4j-api-2.11.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="log4j-core-2.11.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/logging/log4j/log4j-core/2.11.0/log4j-core-2.11.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-collections4-4.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/commons/commons-collections4/4.1/commons-collections4-4.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="crud-jpa-war-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/crud-jpa-war/crud-jpa-war">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

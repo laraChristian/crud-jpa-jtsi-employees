@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="DEBUG">
+
+	<Properties>
+		<Property name="crud-path-info">C:/tmp/crud/logs</Property>
+	</Properties>
+
+	<Appenders>
+		<RollingFile name="crud-appender"
+			fileName="${crud-path-info}/crud-jpa-enterprise.log"
+			filePattern="${crud-path-info}/crud-jpa-enterprise-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout>
+				<pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern>
+			</PatternLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="4" />
+		</RollingFile>
+
+		<Console name="console-appender" target="SYSTEM_OUT">
+			<PatternLayout>
+				<pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern>
+			</PatternLayout>
+		</Console>
+
+	</Appenders>
+
+	<Loggers>
+		<Root level="debug" additivity="false">
+			<AppenderRef ref="crud-appender" />
+			<AppenderRef ref="console-appender" />
+		</Root>
+	</Loggers>
+
+</Configuration>

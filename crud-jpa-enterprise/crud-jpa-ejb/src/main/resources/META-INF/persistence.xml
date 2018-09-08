@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="hr-employees-pu">
+		<jta-data-source>jdbc/hr-employees</jta-data-source>
+		<class>co.com.foundation.crud.jpa.entities.Countries</class>
+		<class>co.com.foundation.crud.jpa.entities.Departments</class>
+		<class>co.com.foundation.crud.jpa.entities.Employees</class>
+		<class>co.com.foundation.crud.jpa.entities.JobHistory</class>
+		<class>co.com.foundation.crud.jpa.entities.Jobs</class>
+		<class>co.com.foundation.crud.jpa.entities.Locations</class>
+		<class>co.com.foundation.crud.jpa.entities.Regions</class>
+	</persistence-unit>
+
+</persistence>
